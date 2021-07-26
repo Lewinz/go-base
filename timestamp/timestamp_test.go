@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Lewinz/go-base/timestamp"
+	"github.com/Lewinz/golang_utils/timestamp"
 	"github.com/stretchr/testify/assert"
 )
 
