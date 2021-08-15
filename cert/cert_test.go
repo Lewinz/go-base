@@ -6,9 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPemCertToP12(t *testing.T) {
+func TestPemCertUtil(t *testing.T) {
 	_, err := PemCertToP12(nil, nil)
 	assert.NotNil(t, err)
+	err = nil
 
 	_, err = PemCertToP12([]byte("This is an incorrect pem"), []byte("This is an incorrect pem key"))
 	assert.NotNil(t, err)
@@ -78,8 +79,19 @@ uEGcwKpRCEGmZT3IIKuU99X5vYmcfnJ5QF7zT/qvEcwspsESk31IwCgkI7VQzWBk
 iMnhxJjeZeQGY1RroUhj31idxTz9PhwigZzeiTxn5pcy5EBwzh2a/ix/JLObbcmZ
 H/Me/JtAfoZC/KPdFXUAP7sKMiRn4W8yjRbwnDoJ+oILYC7BQnnDrg==
 -----END RSA PRIVATE KEY-----`)
-
 	p12Cert, err := PemCertToP12(certBuf, keyBuf)
 	assert.Nil(t, err)
 	assert.NotNil(t, p12Cert)
+
+	commonName, expirationTime, err := ConvertP12Detail(p12Cert, "")
+	assert.Nil(t, err)
+	assert.True(t, commonName == "zxl.lewinz.org")
+	assert.NotNil(t, expirationTime)
+
+	_, _, err = ConvertP12Detail([]byte("This is an incorrect pkcs12"), "")
+	assert.NotNil(t, err)
+	err = nil
+
+	_, _, err = ConvertP12Detail(nil, "")
+	assert.NotNil(t, err)
 }
