@@ -18,6 +18,7 @@ import (
 )
 
 var (
+	// RequestIDKey RequestID fields
 	RequestIDKey = "x-reqid"
 	pid          = uint32(time.Now().UnixNano() % 4294967291)
 
@@ -36,6 +37,7 @@ func init() {
 	StdLog = NewLogger()
 }
 
+// Logger logrus realize
 type Logger struct {
 	mu       sync.RWMutex
 	out      io.Writer
