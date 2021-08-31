@@ -1,4 +1,4 @@
-module github.com/Lewinz/go-base
+module github.com/Lewinz/golang_utils
 
 go 1.16
 
