@@ -117,7 +117,7 @@ func NewLogger(entrys ...*log.Entry) *Logger {
 	if len(entrys) > 0 {
 		l.LogEntry = entrys[0]
 	}
-
+	SetOutputFile("log.log", l)
 	SetFormat("json", l)
 	return l
 }
@@ -194,6 +194,15 @@ func SetOutput(output string, logger *Logger) {
 	default:
 		logger.SetOutput(os.Stderr)
 	}
+}
+
+// SetOutputFile set logger file
+func SetOutputFile(fileName string, logger *Logger) {
+	file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		logger.Errorf("set output file err(%v),file(%v)", err, fileName)
+	}
+	logger.SetOutput(io.MultiWriter(file))
 }
 
 // SetFormat ..
