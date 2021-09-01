@@ -1,23 +1,30 @@
 package cron
 
 import (
-	"fmt"
 	"log"
 
+	"github.com/Lewinz/golang_utils/logger/phuslog"
 	"github.com/robfig/cron/v3"
 )
 
 // CronJob cron job instance
 var CronJob *Cron
 
-// CronConfig 自动任务配置
-type CronConfig struct {
+// Cron type
+type Cron struct {
+	croner *cron.Cron
+	config *Config
+	logger *phuslog.Logger
+}
+
+// Config ..
+type Config struct {
 	Enable bool                `mapstructure:"enable"`
 	Specs  map[string][]string `mapstructure:"specs"` // one spec to multi events
 }
 
 // Events 返回定时任务配置
-func (config *CronConfig) Events() (res map[string]string) {
+func (config *Config) Events() (res map[string]string) {
 	res = make(map[string]string)
 	for spec, events := range config.Specs {
 		for _, event := range events {
@@ -30,13 +37,6 @@ func (config *CronConfig) Events() (res map[string]string) {
 // SetUp set instance
 func SetUp(job *Cron) {
 	CronJob = job
-}
-
-// Cron type
-type Cron struct {
-	croner *cron.Cron
-	config *CronConfig
-	logger log.Logger
 }
 
 // Event func
@@ -53,12 +53,12 @@ func (c *Cron) Stop() {
 }
 
 // NewCron server init
-func NewCron(config *CronConfig, logger log.Logger) (c *Cron) {
+func NewCron(config *Config, logger log.Logger) (c *Cron) {
 	c = &Cron{
 		// cron V3 默认不支持秒单位，cron.WithSeconds 设置为秒单位
 		croner: cron.New(cron.WithSeconds()),
 		config: config,
-		logger: logger,
+		logger: phuslog.CornLog,
 	}
 
 	// config enable cron or need manual operation start cron
@@ -88,9 +88,9 @@ func (c *Cron) addEvent(name string, spec string, event Event) {
 			if p := recover(); p != nil {
 				switch i := p.(type) {
 				case error:
-					fmt.Errorf("panic in crontab func name %v,spec %v,error %v\n", name, spec, i.Error())
+					c.logger.Errorf("panic in crontab func name %v,spec %v,error %v\n", name, spec, i.Error())
 				default:
-					fmt.Errorf("panic in crontab func name %v,spec %v,error %v\n", name, spec, i)
+					c.logger.Errorf("panic in crontab func name %v,spec %v,error %v\n", name, spec, i)
 				}
 			}
 		}()

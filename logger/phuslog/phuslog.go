@@ -15,12 +15,16 @@ var (
 
 // logger constant
 var (
-	StdLog *Logger
+	StdLog  *Logger
+	CornLog *Logger
 )
 
 func init() {
 	StdLog = NewEmptyLogger()
 	SetAsyncFileOutput("phusStd.log", 1000, StdLog)
+
+	CornLog = NewEmptyLogger()
+	SetAsyncFileOutput("phusCorn.log", 1000, CornLog)
 }
 
 // Logger phuslog implementation
