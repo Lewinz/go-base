@@ -12,6 +12,8 @@ const (
 	DataTimeFormat = "2006-01-02 15:0"
 	// DataTimeFormatSecond second
 	DataTimeFormatSecond = "2006-01-02 15:04:05"
+	// DataTimeFormatSecond2 second
+	DataTimeFormatSecond2 = "2006-01-02T15:04:05"
 	// DataTimeFormatSecondUTCLocation second location UTC
 	DataTimeFormatSecondUTCLocation = "2006-01-02T15:04:05Z"
 	// DataTimeFormatMilliSecond milli Second location
