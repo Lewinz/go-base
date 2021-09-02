@@ -21,4 +21,7 @@ matrix:
         - echo $TRAVIS_BUILD_DIR
         - go mod download
         - go install ./...
-        - CGO_ENABLED=0 go test -v $(go list ./...)
+        - CGO_ENABLED=0 go test -v -coverprofile=coverage.txt $(go list ./...)
+
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)

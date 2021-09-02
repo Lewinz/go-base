@@ -1,0 +1,25 @@
+codecov:
+    require_ci_to_pass: no  # 改为 no，否则 codecov 会等待其他 GitHub 上所有 CI 通过才会留言。
+
+github_checks:              # 关闭 Github checks
+    annotations: false
+
+comment:
+    layout: "reach, diff, flags, files"
+    behavior: new           # 默认是更新旧留言，改为 new，删除旧的，增加新的。
+    require_changes: false  # if true: only post the comment if coverage changes
+    require_base: no        # [yes :: must have a base report to post]
+    require_head: yes       # [yes :: must have a head report to post]
+    branches:               # branch names that can post comment
+        - "develop"
+        - "master"
+
+coverage:
+    precision: 3
+    status:                                 # 评判 Patch/PR 通过的标准
+        patch:
+            default:
+                target: auto                # 总体 Patch 通过标准，auto 则和上次比
+        project:                            # Project 统计所有代码
+            default:
+                target: auto                # 总体 Project 通过标准，auto 则和上次比
