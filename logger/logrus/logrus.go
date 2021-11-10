@@ -185,8 +185,6 @@ func SetLogLevel(level string, logger *Logger) {
 // SetOutput ..
 func SetOutput(output string, logger *Logger) {
 	switch output {
-	case "stderr":
-		logger.SetOutput(os.Stderr)
 	case "stdout":
 		logger.SetOutput(os.Stdout)
 	case "null":
@@ -270,11 +268,7 @@ func (logger *Logger) Fatal(args ...interface{}) {
 
 // Panic ..
 func (logger *Logger) Panic(args ...interface{}) {
-	appendLog(&LogMessage{
-		Level: "panic",
-		Entry: initLogger(logger),
-		Data:  args,
-	})
+	initLogger(logger).Panic(args...)
 }
 
 // Debugf ..
@@ -329,12 +323,7 @@ func (logger *Logger) Fatalf(format string, args ...interface{}) {
 
 // Panicf ..
 func (logger *Logger) Panicf(format string, args ...interface{}) {
-	appendLog(&LogMessage{
-		Level:  "panicf",
-		Format: format,
-		Entry:  initLogger(logger),
-		Data:   args,
-	})
+	initLogger(logger).Panicf(format, args...)
 }
 
 // ReqID ..

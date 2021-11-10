@@ -14,7 +14,7 @@ var CronJob *Cron
 type Cron struct {
 	croner *cron.Cron
 	config *Config
-	logger *phuslog.Logger
+	logger *phuslog.Log
 }
 
 // Config ..
@@ -58,7 +58,7 @@ func NewCron(config *Config, logger log.Logger) (c *Cron) {
 		// cron V3 默认不支持秒单位，cron.WithSeconds 设置为秒单位
 		croner: cron.New(cron.WithSeconds()),
 		config: config,
-		logger: phuslog.CornLog,
+		logger: phuslog.StdLog,
 	}
 
 	// config enable cron or need manual operation start cron

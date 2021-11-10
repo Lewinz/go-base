@@ -92,6 +92,10 @@ H/Me/JtAfoZC/KPdFXUAP7sKMiRn4W8yjRbwnDoJ+oILYC7BQnnDrg==
 	assert.NotNil(t, err)
 	err = nil
 
+	_, _, err = ConvertP12Detail([]byte(""), "")
+	assert.NotNil(t, err)
+	err = nil
+
 	_, _, err = ConvertP12Detail(nil, "")
 	assert.NotNil(t, err)
 }
